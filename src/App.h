@@ -8,11 +8,11 @@
 #include <memory>
 #include "World.h"
 #include <SDL2/SDL.h>
+#include <vector>
 
 class App {
 private:
     bool _running;
-    bool _wKeyPressed;
 
     static std::unique_ptr<World> _world;
 

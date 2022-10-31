@@ -5,11 +5,12 @@
 #include "App.h"
 #include "Renderer.h"
 #include <iostream>
+#include "FileReader.h"
 
 std::unique_ptr<World> App::_world;
 
 App::App() {
-
+    _running = true;
 }
 
 App::~App() {}
@@ -20,6 +21,7 @@ int App::onExecute() {
     }
 
     SDL_Event Event;
+
 
     while(_running) {
         while(SDL_PollEvent(&Event)) {
@@ -56,7 +58,11 @@ bool App::onInit() {
 }
 
 void App::onEvent(SDL_Event* event) {
-
+    switch (event->type) {
+        case SDL_QUIT:
+            exit();
+            break;
+    }
 }
 
 void App::onRender() {

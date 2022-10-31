@@ -11,6 +11,11 @@ Renderer::Renderer() {
     SDL_SetWindowTitle(_window, "Raycasting application");
 }
 
+Renderer::~Renderer() {
+    SDL_DestroyRenderer(_renderer);
+    SDL_DestroyWindow(_window);
+}
+
 const Renderer & Renderer::getInstance() {
     if (!_instance) {
         _instance = std::make_unique<Renderer>();
