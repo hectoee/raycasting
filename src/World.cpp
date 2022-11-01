@@ -11,7 +11,7 @@ World::World() {
     _player.ypos = 75;
     _player.angle = M_PI_2f;
     _player.sizeInPX = 10;
-    _player.speed = 2.5f;
+    _player.speed = 4.0f;
 }
 
 World::~World() {
@@ -86,13 +86,13 @@ void World::moveDOWN() {
 }
 
 void World::turnLEFT() {
-    _player.angle -= 0.05;
+    _player.angle -= 0.1;
     if (_player.angle < 0)
         _player.angle += 2 * M_PI;
 }
 
 void World::turnRIGHT() {
-    _player.angle += 0.05;
+    _player.angle += 0.1;
     if (_player.angle > 2 * M_PI)
         _player.angle -= 2 * M_PI;
 }
