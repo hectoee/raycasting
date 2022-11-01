@@ -34,8 +34,6 @@ public:
 
     void exit();
 
-    static World & getWorld();
-
 };
 
 

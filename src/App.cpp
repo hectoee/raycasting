@@ -11,6 +11,7 @@ std::unique_ptr<World> App::_world;
 
 App::App() {
     _running = true;
+    _world = std::make_unique<World>();
 }
 
 App::~App() {}
@@ -62,11 +63,28 @@ void App::onEvent(SDL_Event* event) {
         case SDL_QUIT:
             exit();
             break;
+        case SDL_KEYDOWN:
+            if (event->key.keysym.sym == 'z')
+                _world->moveUP();
+            if (event->key.keysym.sym == 'q')
+                _world->turnLEFT();
+            if (event->key.keysym.sym == 's')
+                _world->moveDOWN();
+            if (event->key.keysym.sym == 'd')
+                _world->turnRIGHT();
+            break;
+        default:
+            break;
     }
 }
 
 void App::onRender() {
-    const Renderer & rend = Renderer::getInstance();
+    const Renderer & renderer = Renderer::getInstance();
+    renderer.clear();
+
+    _world->render();
+
+    renderer.renderPresent();
 }
 
 void App::onCleanup() {
@@ -78,11 +96,3 @@ void App::exit() {
     std::cout << "exiting..." << std::endl;
     _running = false;
 }
-
-World & App::getWorld() {
-    if (!_world)
-        _world = std::make_unique<World>();
-    return *_world;
-}
-
-

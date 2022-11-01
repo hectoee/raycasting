@@ -7,6 +7,8 @@
 
 #include <SDL2/SDL.h>
 #include <memory>
+#include <iostream>
+#include "Color.h"
 
 class Renderer {
 private:
@@ -33,6 +35,14 @@ public:
     SDL_Renderer * getSDLRenderer() const {
         return _renderer;
     }
+
+    void clear() const;
+
+    void renderPresent() const;
+
+    void drawLine(int, int, int, int, Color&) const;
+
+    void drawSquare(int, int, int, Color&) const;
 
 };
 

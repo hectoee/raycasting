@@ -9,6 +9,7 @@
 #include <string>
 #include "Renderer.h"
 #include "FileReader.h"
+#include "Color.h"
 #include <math.h>
 
 using Map = std::vector<std::vector<int>>;
@@ -18,12 +19,16 @@ private:
     Map _map;
     const std::string _mapPath = "../maps/map1.txt";
 
-    const unsigned int _tileSize = 20; // pixels
+    const unsigned int _tileSize = 64; // pixels
+    const unsigned int _numberTilesX = 8;
+    const unsigned int _numberTilesY = _numberTilesX;
 
     struct Player {
         int xpos;
         int ypos;
-        double angle;
+        float angle;
+        int sizeInPX;
+        float speed;
     };
 
     Player _player;
@@ -34,16 +39,22 @@ public:
 
     void render();
 
-    void moveUP() { _player.ypos ++; }
+    void moveUP();
 
-    void moveDOWN() { _player.ypos --; }
+    void moveDOWN();
 
-    void moveRIGHT() { _player.xpos ++; }
+    void turnRIGHT();
 
-    void moveLEFT() { _player.xpos --; }
+    void turnLEFT();
 
 private:
-    void drawlines();
+    void drawMap() const;
+
+    void drawPlayer() const;
+
+    void drawRays() const;
+
+    float dist(float, float, float, float) const;
 };
 
 
