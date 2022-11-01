@@ -50,16 +50,12 @@ void World::moveUP() {
     if (_map[offy / 64][offx / 64])
         return;
 
-    std::cout << "angle : " << _player.angle << std::endl;
-
     float vx = cos(_player.angle);
     float vy = sin(_player.angle);
     if (sqrt(vx * vx + vy * vy) != 0) {
         vx /= sqrt(vx * vx + vy * vy);
         vy /= sqrt(vx * vx + vy * vy);
     }
-
-    std::cout << "vx : " << vx << " vy : " << vy << std::endl;
 
     float newx = _player.speed * vx + (float) _player.xpos;
     float newy = _player.speed * vy + (float) _player.ypos;
@@ -75,8 +71,6 @@ void World::moveDOWN() {
     if (_map[offy / 64][offx / 64])
         return;
 
-    std::cout << "angle : " << _player.angle << std::endl;
-
     float vx = - cos(_player.angle);
     float vy = - sin(_player.angle);
     if (sqrt(vx * vx + vy * vy) != 0) {
@@ -84,15 +78,11 @@ void World::moveDOWN() {
         vy /= sqrt(vx * vx + vy * vy);
     }
 
-    std::cout << "vx : " << vx << " vy : " << vy << std::endl;
-
     float newx = _player.speed * vx + (float) _player.xpos;
     float newy = _player.speed * vy + (float) _player.ypos;
 
     _player.xpos = (int) newx;
     _player.ypos = (int) newy;
-
-
 }
 
 void World::turnLEFT() {
