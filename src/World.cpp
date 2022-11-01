@@ -5,13 +5,13 @@
 #include "World.h"
 
 World::World() {
-    _mapPath = "../maps/map3.txt";
+    _mapPath = "../maps/map2.txt";
     _map = FileReader::readMap(_mapPath);
     _player.xpos = 75;
     _player.ypos = 75;
     _player.angle = M_PI_2f;
     _player.sizeInPX = 10;
-    _player.speed = 3.0f;
+    _player.speed = 2.5f;
 }
 
 World::~World() {
@@ -58,13 +58,13 @@ void World::moveDOWN() {
 }
 
 void World::turnLEFT() {
-    _player.angle -= 0.1;
+    _player.angle -= 0.05;
     if (_player.angle < 0)
         _player.angle += 2 * M_PI;
 }
 
 void World::turnRIGHT() {
-    _player.angle += 0.1;
+    _player.angle += 0.05;
     if (_player.angle > 2 * M_PI)
         _player.angle -= 2 * M_PI;
 }

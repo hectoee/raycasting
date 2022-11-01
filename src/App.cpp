@@ -3,9 +3,7 @@
 //
 
 #include "App.h"
-#include "Renderer.h"
-#include <iostream>
-#include "FileReader.h"
+
 
 std::unique_ptr<World> App::_world;
 
@@ -23,13 +21,19 @@ int App::onExecute() {
 
     SDL_Event Event;
 
-
+    Uint32 tick = 40; // 40 ms
+    Uint32 oldTime = SDL_GetTicks();
+    Uint32 currentTime = SDL_GetTicks();
     while(_running) {
+        if (((currentTime = SDL_GetTicks()) - oldTime) < tick) {
+            continue;
+        }
+        oldTime = currentTime;
         while(SDL_PollEvent(&Event)) {
             onEvent(&Event);
         }
 
-        //onLoop();
+        onLoop();
 
         onRender();
 
@@ -47,6 +51,7 @@ bool App::onInit() {
     }
 
     const Renderer & renderer = Renderer::getInstance();
+    Input::getInstance();
 
     if (renderer.getSDLWindow() == NULL)
         return false;
@@ -59,23 +64,46 @@ bool App::onInit() {
 }
 
 void App::onEvent(SDL_Event* event) {
+    Input& input = Input::getInstance();
     switch (event->type) {
         case SDL_QUIT:
             exit();
             break;
         case SDL_KEYDOWN:
             if (event->key.keysym.sym == 'z')
-                _world->moveUP();
+                input.press(Input::Z);
             if (event->key.keysym.sym == 'q')
-                _world->turnLEFT();
+                input.press(Input::Q);
             if (event->key.keysym.sym == 's')
-                _world->moveDOWN();
+                input.press(Input::S);
             if (event->key.keysym.sym == 'd')
-                _world->turnRIGHT();
+                input.press(Input::D);
+            break;
+        case SDL_KEYUP:
+            if (event->key.keysym.sym == 'z')
+                input.unpress(Input::Z);
+            if (event->key.keysym.sym == 'q')
+                input.unpress(Input::Q);
+            if (event->key.keysym.sym == 's')
+                input.unpress(Input::S);
+            if (event->key.keysym.sym == 'd')
+                input.unpress(Input::D);
             break;
         default:
             break;
     }
+}
+
+void App::onLoop() {
+    const Input& input = Input::getInstance();
+    if (input.isPressed(Input::Z))
+        _world->moveUP();
+    if (input.isPressed(Input::Q))
+        _world->turnLEFT();
+    if (input.isPressed(Input::S))
+        _world->moveDOWN();
+    if (input.isPressed(Input::D))
+        _world->turnRIGHT();
 }
 
 void App::onRender() {

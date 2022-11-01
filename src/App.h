@@ -9,6 +9,10 @@
 #include "World.h"
 #include <SDL2/SDL.h>
 #include <vector>
+#include "Renderer.h"
+#include <iostream>
+#include "FileReader.h"
+#include "Input.h"
 
 class App {
 private:
