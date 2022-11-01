@@ -14,9 +14,11 @@ private:
 
 public:
     Color(unsigned int = 255, unsigned int = 255, unsigned int = 255);
+    Color(const Color&);
     virtual ~Color();
 
     static Color Green;
+    static Color DarkGreen;
     static Color Blue;
     static Color Red;
 

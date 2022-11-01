@@ -5,6 +5,7 @@
 #include "World.h"
 
 World::World() {
+    _mapPath = "../maps/map3.txt";
     _map = FileReader::readMap(_mapPath);
     _player.xpos = 75;
     _player.ypos = 75;
@@ -28,7 +29,7 @@ void World::drawMap() const{
     for (int i = 0; i < _map.size(); i++) {
         for (int j = 0; j < _map[i].size(); j++) {
             // a wall
-            if (_map[i][j] == 1) {
+            if (_map[j][i] == 1) {
                 renderer.drawSquare(i * _tileSize, j * _tileSize, _tileSize, Color::Green);
             }
         }
@@ -73,11 +74,14 @@ float World::dist(float x1, float y1, float x2, float y2) const {
 }
 
 void World::drawRays() const{
-    int r, mx, my, dof;
+    int r, mx, my, dof, disT;
     float rx, ry, ra, xo, yo;
-    const int nbOfRays = 60;
+    const int nbOfRays = 250;
+    const Renderer & renderer = Renderer::getInstance();
 
     ra = _player.angle - M_PI / 6;
+    if (ra < 0) ra += 2 * M_PI;
+    if (ra > 2 * M_PI) ra -= 2 * M_PI;
 
     for (r = 0; r < nbOfRays; r++) {
         /** Check horizontal lines **/
@@ -167,20 +171,45 @@ void World::drawRays() const{
                 dof ++;
             }
         }
+
+        Color c;
         if (disH < disV){
             rx = hx;
             ry = hy;
-        }else {
+            disT = disH;
+            c = Color::DarkGreen;
+        }
+        if (disV < disH){
             rx = vx;
             ry = vy;
+            disT = disV;
+            c = Color::Green;
         }
 
         Renderer::getInstance().drawLine(_player.xpos, _player.ypos, rx, ry, Color::Red);
+
+
+        /** Draw 3D Scene **/
+        int screenHeight = 160;
+        int screenWidth = 400;
+
+
+
+        float ca = _player.angle - ra;
+        if (ca < 0) ca += 2 * M_PI;
+        if (ca > 2 * M_PI) ca -= 2 * M_PI;
+        disT = (float) disT * cos(ca);
+        float lineH = ( (float) (_tileSize * screenWidth)) / (float) disT;
+        //if (lineH > screenHeight) lineH = screenHeight;
+        float lineOffset =  screenHeight - lineH / 2.0;
+
+        renderer.drawLine(r*3+530, lineOffset+195, r*3+530, lineH+lineOffset+195, c);
+
+
         ra += M_PI / 3 / nbOfRays;
         if (ra < 0) ra += 2 * M_PI;
         if (ra > 2 * M_PI) ra -= 2 * M_PI;
     }
-
 }
 
 

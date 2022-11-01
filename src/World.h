@@ -17,7 +17,7 @@ using Map = std::vector<std::vector<int>>;
 class World {
 private:
     Map _map;
-    const std::string _mapPath = "../maps/map1.txt";
+    std::string _mapPath;
 
     const unsigned int _tileSize = 64; // pixels
     const unsigned int _numberTilesX = 8;
