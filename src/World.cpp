@@ -9,7 +9,7 @@ World::World() {
     _map = FileReader::readMap(_mapPath);
     _player.xpos = 75;
     _player.ypos = 75;
-    _player.angle = M_PI_2f;
+    _player.angle = M_PI_2;
     _player.sizeInPX = 10;
     _player.speed = 4.0f;
 }
@@ -163,21 +163,21 @@ void World::drawRays() const{
         float vy = _player.ypos;
         float nTan = -tan(ra);
         // looking left
-        if (ra > M_PI_2f && ra < 3 * M_PI_2f) {
+        if (ra > M_PI_2 && ra < 3 * M_PI_2) {
             rx = (((int)_player.xpos >> 6) << 6) - 0.0001;
             ry = (_player.xpos - rx) * nTan + _player.ypos;
             xo = -64;
             yo = -xo * nTan;
         }
         // looking right
-        if (ra < M_PI_2f || ra > 3 * M_PI_2f) {
+        if (ra < M_PI_2 || ra > 3 * M_PI_2) {
             rx = (((int)_player.xpos >> 6) << 6) + 64;
             ry = (_player.xpos - rx) * nTan + _player.ypos;
             xo = 64;
             yo = -xo * nTan;
         }
         // looking straight vertically
-        if (ra ==  M_PI_2f|| ra == 3 * M_PI_2f) {
+        if (ra ==  M_PI_2|| ra == 3 * M_PI_2) {
             rx = _player.xpos;
             ry = _player.ypos;
             dof = 8;
